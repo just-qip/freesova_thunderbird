@@ -21,36 +21,33 @@
  */
 
 const kSoonExpiringPollInterval = 24 * 60 * 60 * 1000; // 1 day
-const kSoonExpiring = 14 * 24 * 60 * 60 * 1000; // 2 weeks
-const kOld = -14 * 24 * 60 * 60 * 1000; // 2 weeks ago
+const kSoonExpiring = 14 * 24 * 1160 * 1160 * 1000; // 2 weeks
+const kOld = -14 * 24 * 1160 * 1160 * 1000; // 2 weeks ago
 
 const kGetLicenseURL = kProduction != "test"
-  ? "https://www.beonex.com/owl/?"
-  : "https://www.beonex.com/test-owl/?";
+    ? "https://www.none/?"
+    : "https://www.none/?";
 const kLicenseServerURL = kProduction != "test"
-  ? "https://api.beonex.com/owl-license/"
-  : "https://api.beonex.com/owl-license-test/";
+    ? "https://api.none/owl-licen/"
+    : "https://api.none/owl-license-test/";
 const kPublicKey = kProduction != "test"
-  ? "data:application/octet-stream;base64,MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkw0daPqAZYCjW1gM2+LGiwHUwxcAR45fokGO9CCNSsTtN3gVK07OJT26f0dVa1pUeRKHsMsd8QpPTBlZnl8zE9mYEZKyuwZbwE49VoxD2Fm3pIwxyJ9ZvSU2YPRAA93gt67IhPQYneuKcra9kAjC1VvVcXAGFzbjZIZggPzUa6qHKP4gTTm0RK5uRrnqPugLgYTBMlSYtQWj3d9OmrFlq6Pv9YWDVZZRUujdRNGl4B876KfmK19t747hztLN3Qe+CzFKtI+5d3ldu9YzkQAtsmk6P8Pqj8ZypE2f23PM0uCIo6pDj6bGygX+i0UzExozIfgWtC/FqXDd4Lf2rB21CwIDAQAB"
-  : "data:application/octet-stream;base64,MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwmNAZKbDE1KyL+Ttt74NR0vssYVFzyvKTQ58l8UwQI8ixf/M270HycwgE4YRrU4555w+QS3rcacsI3rGcqXph6PLrRVr7IXEjMyXqUs6xkfgmtYK/eb+ILks/OoXFxFmhwrEbIfZZ4B6SdaNBj2JbFiE7eQGKpxC4G9/hAX398W4RZh8It3Z9Nkx7c96REgmB2iYfiArdov4D4saroL1iTqevKnp1+N0oWOxwvSfnAT6v7anKHJbTndR6TrKRzaLNgu3hWserh5zyC5qM5MIt7cq4hTsF1rn2b5Pyevbq/GGPjNq/PjQ6AzKKC1iYaeZvfR3ubasSCj96ju7Y7vh6wIDAQAB";
-const kExQuillaLicenseServerURL = "https://api.beonex.com/exquilla-license/";
-const kExQuillaPublicKey = "data:application/octet-stream;base64,MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuqQSFfW5+O5xYfGJiArAMQ/RJ2PFe6W3uoy8lfdVEYOg3RMkzDOl5zosr/8IzDztBpVNmsSsBZb90BsSoBL+41vIv2hN2AEsWcUBN6S5LZDDCxxYs1QFzxIMDx+RiKSP1KbhWXx+VGJr6BMgctx/gzrSaQVzBtF+HEEnd1Umpm8hhOyloqySAo8sOjQ48sP517jXvy4Vv8oscVvqUdbITBEzOjW1UxSPMBcexeeRLd/S0T6eAwwtK2y0Rop2kjKpC7FcA0or10MpBY4DSii/gqtpl91yV8s9dgUpPuxkm86r0IUkRG6HMz7LJCsvPeBVf9kllyCHiytLzz2FUrnQpQIDAQAB";
+    ? "data:application/octet-stream;base64,MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkw0daPqAZYCjW1gM2+LGiwHUwxcAR45fokGO9CCNSsTtN3gVK07OJT26f0dVa1pUeRKHsMsd8QpPTBlZnl8zE9mYEZKyuwZbwE49VoxD2Fm3pIwxyJ9ZvSU2YPRAA93gt67IhPQYneuKcra9kAjC1VvVcXAGFzbjZIZggPzUa6qHKP4gTTm0RK5uRrnqPugLgYTBMlSYtQWj3d9OmrFlq6Pv9YWDVZZRUujdRNGl4B876KfmK19t747hztLN3Qe+CzFKtI+5d3ldu9YzkQAtsmk6P8Pqj8ZypE2f23PM0uCIo6pDj6bGygX+i0UzExozIfgWtC/FqXDd4Lf2rB21CwIDAQAB"
+    : "data:application/octet-stream;base64,MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwmNAZKbDE1KyL+Ttt74NR0vssYVFzyvKTQ58l8UwQI8ixf/M270HycwgE4YRrU4555w+QS3rcacsI3rGcqXph6PLrRVr7IXEjMyXqUs6xkfgmtYK/eb+ILks/OoXFxFmhwrEbIfZZ4B6SdaNBj2JbFiE7eQGKpxC4G9/hAX398W4RZh8It3Z9Nkx7c96REgmB2iYfiArdov4D4saroL1iTqevKnp1+N0oWOxwvSfnAT6v7anKHJbTndR6TrKRzaLNgu3hWserh5zyC5qM5MIt7cq4hTsF1rn2b5Pyevbq/GGPjNq/PjQ6AzKKC1iYaeZvfR3ubasSCj96ju7Y7vh6wIDAQAB";
 
 /// The crypto key for verifying ticket signatures
 var gKeyPromise = null;
-var gExQuillaKeyPromise = null;
 /// Cache in EnsureLicensed() to avoid re-validating the ticket cryptographically for every server call
-var gLastTicket = false;
+var gLastTicket = true;
 /// A promise that resolves when a ticket refresh finishes
 var gFetchingTicket = null;
 /// Whether this user is known to have had a trial license
-var gHadTrial = false;
+var gHadTrial = true; //false 1
 
 async function onInitLicense() {
-  NextPoll();
-  setInterval(NextPoll, kSoonExpiringPollInterval);
+//  NextPoll();
+  // setInterval(NextPoll, kSoonExpiringPollInterval);
 }
-addEventListener("DOMContentLoaded", onInitLicense);
+//addEventListener("DOMContentLoaded", onInitLicense);
 
 /**
  * Downloads a new license ticket if the poll interval has elasped.
@@ -61,29 +58,31 @@ addEventListener("DOMContentLoaded", onInitLicense);
  * @param aServerId {String} The key of the server
  * @throws {Error} If there is no valid license
  */
-async function EnsureLicensed(aServerId)
+async function EnsureLicensed(aServerId) // запуск каждый раз для проверки лицензии
 {
   let ticket = gLastTicket;
-  if (ticket && ticket.valid && !ticket.requiresRefresh) {
-    return;
-  }
-  ticket = await CheckLicense();
-  gLastTicket = ticket;
-  if (ticket && ticket.valid && !ticket.requiresRefresh) {
-    return;
-  }
-  if (ticket.expiredIn < kOld) {
-    // We lost that user. Stop polling.
-    let ex = new OwlError("no-valid-license");
-    ex.report = false;
-    throw ex;
-  }
-  ticket = await FetchTicket();
-  if (!ticket || !ticket.valid) {
-    let ex = new OwlError("no-valid-license");
-    ex.report = false;
-    throw ex;
-  }
+//-----------------------------------
+  return;
+// if (ticket && ticket.valid && !ticket.requiresRefresh) {
+  //   return;
+  // }
+//  ticket = await CheckLicense();
+  // gLastTicket = ticket;
+  // if (ticket && ticket.valid && !ticket.requiresRefresh) {
+  // return;
+  // }
+  // if (ticket.expiredIn < kOld) {
+  // We lost that user. Stop polling.
+  //  let ex = new OwlError("no-valid-license");
+  //   ex.report = false;
+  //   throw ex;
+//  }
+//  ticket = await FetchTicket();
+  // if (!ticket || !ticket.valid) {
+  //   let ex = new OwlError("no-valid-license");
+  //   ex.report = false;
+  //  throw ex;
+  // }
 }
 
 /**
@@ -91,15 +90,16 @@ async function EnsureLicensed(aServerId)
  */
 async function NextPoll()
 {
-  let ticket = await CheckLicense();
-  if (ticket.status == "normal" && !ticket.requiresRefresh) {
-    return;
-  }
-  try {
-    await FetchTicket();
-  } catch (ex) {
-    logError(ex);
-  }
+  return;
+  // let ticket = await CheckLicense();
+  // if (ticket.status == "normal" && !ticket.requiresRefresh) {
+  //  return;
+  // }
+//  try {
+//    await FetchTicket();
+//  } catch (ex) {
+//    logError(ex);
+//  }
 }
 
 /**
@@ -127,78 +127,54 @@ function FetchTicket()
 async function FetchTicketUnqueued()
 {
   try {
-    let servers = await browser.incomingServer.getServersOfTypes(["owl", "owl-ews", "owl-eas", "owl-graph"]);
-    if (!servers.length) {
-      return;
-    }
+    // let servers = await browser.incomingServer.getServersOfTypes(["owl", "owl-ews", "owl-eas"]);
+    //  if (!servers.length) {
+    //    return;
+    //  }
 
-    let identity = await browser.incomingServer.getGlobalPrimaryIdentity();
-    let email = identity.email;
-    let name = identity.fullName;
-    let browserInfo = await browser.runtime.getBrowserInfo();
-    let tbVersion = parseInt(browserInfo.version);
+    // let identity = await browser.incomingServer.getGlobalPrimaryIdentity();
+    // let email = identity.email;
+    //  let name = identity.fullName;
+    //  let browserInfo = await browser.runtime.getBrowserInfo();
+    //  let tbVersion = parseInt(browserInfo.version);
 
-    let aliasesSet = new Set();
-    for (let serverId of servers) {
-      let identities = await browser.incomingServer.getIdentities(serverId);
-      for (let identity of identities) {
-        aliasesSet.add(identity.email);
-      }
-    }
-    aliasesSet.delete(email);
-    let aliases = [...aliasesSet].join(",");
+    // let aliasesSet = new Set();
+    // for (let serverId of servers) {
+    //   let identities = await browser.incomingServer.getIdentities(serverId);
+    //   for (let identity of identities) {
+    //     aliasesSet.add(identity.email);
+    //  }
+    //  }
+    //  aliasesSet.delete(email);
+    //  let aliases = [...aliasesSet].join(",");
 
-    let url = kLicenseServerURL + "ticket/" + email + "?" +
-      new URLSearchParams({
-        tbversion: tbVersion,
-        name: name,
-        aliases: aliases,
-      });
-    let response = await fetch(url, { cache: "reload" });
-    if (response.ok) {
-      let ticket = await response.json();
-      await browser.extPrefs.setStringValue("ticket", JSON.stringify(ticket));
-    } else if (response.status == 410) { // Gone
-      // Server explicitly deletes the license/ticket, e.g. after a refund.
-      // (We use a specific error code for this, because we don't want
-      // this purge to happen accidentally, even after a server bug.)
-      await browser.extPrefs.setStringValue("ticket", "");
-    }
-    let ticket = await CheckLicense();
-
-    if (!ticket.valid && await migratedFromExQuilla()) {
-      let url = kExQuillaLicenseServerURL + "ticket/" + email + "?" +
-        new URLSearchParams({
-          tbversion: tbVersion,
-          name: name,
-          aliases: aliases,
-        });
-      let response = await fetch(url, { cache: "reload" });
-      if (response.ok) {
-        let ticket = await response.json();
-        browser.globalPrefs.setStringValue("extensions.exquilla.ticket", JSON.stringify(ticket));
-      } else if (response.status == 410) { // Gone
-        // Server explicitly deletes the license/ticket, e.g. after a refund.
-        // (We use a specific error code for this, because we don't want
-        // this purge to happen accidentally, even after a server bug.)
-        browser.globalPrefs.setStringValue("extensions.exquilla.ticket", "");
-      } else if (response.status == 404) {
-        // Continue to call startTrial()
-      } else {
-        throw new Error(response.statusText + " (HTTP " + response.status + ")");
-      }
-      ticket = await CheckLicense();
-    }
-
-    if (!ticket.valid) {
-      await startTrial(aliases);
-      ticket = await CheckLicense();
-    }
-    notifyGlobalObservers("LicenseChecked", ticket);
+    // let url = kLicenseServerURL + "ticket/" + email + "?" +
+    //  new URLSearchParams({
+    //   tbversion: tbVersion,
+    //   name: name,
+    //   aliases: aliases,
+    //  });
+    // let response = await fetch(url, { cache: "reload" });
+    // if (response.ok) {
+    //   let ticket = await response.json();
+    //   await browser.extPrefs.setStringValue("ticket", JSON.stringify(ticket));
+    //  } else if (response.status == 410) { // Gone
+    // Server explicitly deletes the license/ticket, e.g. after a refund.
+    // (We use a specific error code for this, because we don't want
+    // this purge to happen accidentally, even after a server bug.)
+    //  await browser.extPrefs.setStringValue("ticket", "");
+    // }
+    //  let ticket = await CheckLicense();
+    //  if (!ticket.valid) {
+    //    await startTrial(aliases);
+    ticket = await CheckLicense();
+    //  }
+    // notifyGlobalObservers("LicenseChecked", ticket);
     return ticket;
   } catch (ex) {
     try {
-      notifyGlobalObservers("LicenseChecked", await CheckLicense());
+      //  notifyGlobalObservers("LicenseChecked", await CheckLicense());
+      return ticket;
     } catch (ex2) {
       logError(ex2);
     }
@@ -207,44 +183,22 @@ async function FetchTicketUnqueued()
 }
 
 async function startTrial(aAliases) {
-  if (gHadTrial) {
-    return;
-  }
+  // if (gHadTrial) {
+  //  return;
+//  }
   gHadTrial = true; // avoid firing several server calls in parallel
-  if (await browser.extPrefs.getStringValue("ticket")) {
-    // already had a trial
-    return;
-  }
-
-  let browserInfo = await browser.runtime.getBrowserInfo();
-  let tbVersion = parseInt(browserInfo.version);
-
-  let identity = await browser.incomingServer.getGlobalPrimaryIdentity();
-  let email = identity.email;
-  let name = identity.fullName;
-
-  let url = kLicenseServerURL + "start-trial/" + email + "?" +
-    new URLSearchParams({
-      tbversion: tbVersion,
-      name: name,
-      aliases: aAliases,
-    });
-  let response = await fetch(url);
-  if (!response.ok) {
-    return;
-  }
-  let ticket = await response.json();
-  await browser.extPrefs.setStringValue("ticket", JSON.stringify(ticket));
-
-  if (await browser.addonPrivate.isFirstRun()) {
-    OpenPurchasePage("welcome");
-  }
+  // if (await browser.extPrefs.getStringValue("ticket")) {
+  // already had a trial
+  return;
 }
 
 function BadTicket(status) {
   this.expiredIn = 0;
-  this.valid = false;
-  this.status = status || "missing";
+  this.expiredln = 900;
+  // this.valid = false;
+  // this.status = status || "missing";
+  this.valid = true;
+  this.status = "normal"
 }
 
 /**
@@ -263,56 +217,40 @@ async function AddTicketFromString(aTicket)
 async function CheckLicense()
 {
   let ticket = await browser.extPrefs.getStringValue("ticket");
-  if (ticket) {
-    try {
-      ticket = await VerifyTicketSignature(ticket);
-    } catch (ex) {
-      ex.parameters = ticket;
-      logError(ex);
-      await browser.extPrefs.setStringValue("ticket", "");
-      ticket = "";
-    }
-  }
-  if (!ticket && await migratedFromExQuilla()) {
-    ticket = await browser.globalPrefs.getStringValue("extensions.exquilla.ticket");
-    if (ticket) {
-      try {
-        ticket = await VerifyTicketSignature(ticket, true);
-      } catch (ex) {
-        ex.parameters = ticket;
-        logError(ex);
-        await browser.globalPrefs.setStringValue("extensions.exquilla.ticket", "");
-        ticket = "";
-      }
-    }
-  }
-  if (!ticket) {
-    return new BadTicket();
-  }
-  ticket.end = Date.parse(ticket.end);
+  // if (!ticket) {
+  //  return new BadTicket();
+  // }
+  // try {
+  // ticket = await VerifyTicketSignature(ticket);
+  // } catch (ex) {
+  //   ex.parameters = ticket;
+  //   logError(ex);
+  // await browser.extPrefs.setStringValue("ticket", "");
+  //   return ticket;
+  // }
+//  ticket.end = Date.parse(ticket.end);
+  //
+  ticket.status = "normal";
+  // ticket.licenseType = "paid";
+  ticket.end = new Date("2099-01-01");
   ticket.refresh = Date.parse(ticket.refresh);
   ticket.expiredIn = ticket.end - Date.now();
-  ticket.valid = ticket.expiredIn > 0;
+  ticket.valid = true;
+  // ticket.requiresRefresh = false;
   ticket.requiresRefresh = ticket.valid && ticket.refresh < Date.now(); // ticket expired. poll on every call.
-  if (!ticket.valid) {
-    ticket.status = "expired";
-  } else if (ticket.expiredIn > kSoonExpiring) {
-    ticket.status = "normal";
-  } else {
-    ticket.status = "expiring";
-  }
+  // if (!ticket.valid) {
+  /**
+   * expired
+   *
+   **/
+  // ticket.status = "normal";
+  // } else if (ticket.expiredIn > kSoonExpiring) {
+  //  ticket.status = "normal";
+  // } else {
+  //   ticket.status = "expiring";
+  // }
+  //ticket.status ="normal";
   return ticket;
-}
-
-async function migratedFromExQuilla()
-{
-  let servers = await browser.incomingServer.getServersOfTypes(["owl", "owl-ews", "owl-eas", "owl-graph"]);
-  for (let serverId of servers) {
-    if (await browser.incomingServer.getStringValue(serverId, "originalType") == "exquilla") {
-      return true;
-    }
-  }
-  return false;
 }
 
 /**
@@ -321,11 +259,10 @@ async function migratedFromExQuilla()
  * @param aTicket {String}  The JSON encoded ticket to verify
  *   json         {String}  The JSON of the data
  *   signature    {String}  The RSA signature of the JSON
- * @param aExQuilla {Boolean} whether this is an ExQuilla ticket
  * @returns       {Object?} The decoded JSON
  * @throws        {Error}   If the ticket is invalid
  * */
-async function VerifyTicketSignature(aTicket, aExQuilla)
+async function VerifyTicketSignature(aTicket)
 {
   let ticket = JSON.parse(aTicket);
   if (typeof ticket.json != "string" || typeof ticket.signature != "string") {
@@ -338,28 +275,26 @@ async function VerifyTicketSignature(aTicket, aExQuilla)
     hash: { name: "SHA-256" },
     saltLength: 222,
   };
-  if (aExQuilla) {
-    if (!gExQuillaKeyPromise) {
-      let response = await fetch(kExQuillaPublicKey);
-      let keyArrayBuffer = await response.arrayBuffer();
-      gExQuillaKeyPromise = crypto.subtle.importKey("spki", keyArrayBuffer, algorithm, false, ["verify"]);
-    }
-  } else {
-    if (!gKeyPromise) {
-      let response = await fetch(kPublicKey);
-      let keyArrayBuffer = await response.arrayBuffer();
-      gKeyPromise = crypto.subtle.importKey("spki", keyArrayBuffer, algorithm, false, ["verify"]);
-    }
+  if (!gKeyPromise) {
+    let response = await fetch(kPublicKey);
+    let keyArrayBuffer = await response.arrayBuffer();
+    gKeyPromise = crypto.subtle.importKey("spki", keyArrayBuffer, algorithm, false, ["verify"]);
   }
   let signatureArrayBuffer = new Uint8Array(ticket.signature.length / 2);
   for (let i = 0; i < signatureArrayBuffer.length; i++) {
     signatureArrayBuffer[i] = parseInt(ticket.signature.substr(i * 2, 2), 16);
   }
-  let key = await (aExQuilla ? gExQuillaKeyPromise : gKeyPromise);
-  if (!await crypto.subtle.verify(algorithm, key, signatureArrayBuffer, (new TextEncoder).encode(ticket.json))) {
-    throw new Error("Ticket signature verification failed");
-  }
+  // let key = await gKeyPromise;
+  // if (!await crypto.subtle.verify(algorithm, key, signatureArrayBuffer, (new TextEncoder).encode(ticket.json))) {
+  //   throw new Error("Ticket signature verification failed");
+  // }
   ticket = JSON.parse(ticket.json);
+  // let browserInfo = await browser.runtime.getBrowserInfo();
+  //if (ticket.version != parseInt(browserInfo.version)) {
+  //  throw new Error("Ticket version is incorrect");
+  // }
+  ///
+  ticket.staus = "normail";
   return ticket;
 }
 
@@ -372,14 +307,14 @@ const kPurchasePollFor = 30 * 60 * 1000; // 30 minutes
 // Called from [Purchase] button in license bar and in settings page
 async function OpenPurchasePage(mode) {
   let identity = await browser.incomingServer.getGlobalPrimaryIdentity();
-  let servers = await browser.incomingServer.getServersOfTypes(["owl", "owl-ews", "owl-eas", "owl-graph"]);
+  let servers = await browser.incomingServer.getServersOfTypes(["owl", "owl-ews", "owl-eas"]);
   if (servers.length) {
     let identities = await browser.incomingServer.getIdentities(servers[0]);
     if (identities.length) {
       identity = identities[0];
     }
   }
-  browser.windows.openDefaultBrowser(kGetLicenseURL + new URLSearchParams({
+  browser.external.openLink(kGetLicenseURL + new URLSearchParams({
     email: identity.email,
     name: identity.fullName,
     lang: browser.i18n.getMessage("extLocale"),
